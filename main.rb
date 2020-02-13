@@ -20,7 +20,7 @@ module Enumerable
   end
 
   def my_select
-    varr = Array.new
+    varr = []
     iarr = self
     iarr.my_each do |num|
       varr << num if yield(num) == true
