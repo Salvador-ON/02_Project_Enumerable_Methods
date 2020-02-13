@@ -1,5 +1,51 @@
 module Enumerable
   def my_each
-    # your code here
+    iarr = self
+    size = iarr.length
+    x = 0
+    until x == size
+      yield(iarr[x])
+      x += 1
+    end
+  end
+
+  def my_each_with_index
+    iarr = self
+    size = iarr.length
+    x = 0
+    until x == size
+      yield(iarr[x], x)
+      x += 1
+    end
+  end
+
+  def my_all?
+    self.my_each do |num|
+      return false unless yield(num)
+    end
+    true
+  end
+
+  def my_any?
+    self.my_each do |a|
+      return true unless yield(num)
+    end
+    false
   end
 end
+
+arr = [8, 3, 5, 6]
+puts 'my each'
+arr.my_each { |num1| puts num1 }
+puts 'my each with index'
+arr.my_each_with_index { |num1, num2| p num1.to_s + ':' + num2.to_s }
+puts 'my all--------------?'
+res = arr.all? { |num| num > 2 }
+puts res
+res = arr.all? { |num| num > 6 }
+puts res
+puts 'my any--------------?'
+res = arr.any? { |num| num > 5 }
+puts res
+res = arr.any? { |num| num > 9 }
+puts res
