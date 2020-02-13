@@ -19,6 +19,15 @@ module Enumerable
     end
   end
 
+  def my_select
+    varr = Array.new
+    iarr = self
+    iarr.my_each do |num|
+      varr << num if yield(num) == true
+    end
+    varr
+  end
+
   def my_all?
     iarr = self
     iarr.my_each do |num|
@@ -41,6 +50,8 @@ puts 'my each'
 arr.my_each { |num1| puts num1 }
 puts 'my each with index'
 arr.my_each_with_index { |num1, num2| p num1.to_s + ':' + num2.to_s }
+puts 'my select--------------?'
+p(arr.my_select { |num| num > 4 })
 puts 'my all--------------?'
 res = arr.all? { |num| num > 2 }
 puts res
