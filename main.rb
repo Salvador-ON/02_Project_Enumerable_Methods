@@ -20,14 +20,16 @@ module Enumerable
   end
 
   def my_all?
-    self.my_each do |num|
+    iarr = self
+    iarr.my_each do |num|
       return false unless yield(num)
     end
     true
   end
 
   def my_any?
-    self.my_each do |a|
+    iarr = self
+    iarr.my_each do |num|
       return true unless yield(num)
     end
     false
