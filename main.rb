@@ -57,6 +57,20 @@ module Enumerable
     end
     x
   end
+
+  def my_map(val = nil)
+    varr = []
+    my_each { |num| varr.push(val.call(num)) } if val
+    my_each { |num| varr.push(yield(num)) } if val.nil?
+    varr
+  end
+
+  def my_inject
+    var = self
+    res = self[0]
+    var.my_each_with_index { |num, ind| res = yield(res, num) if ind.positive? }
+    res
+  end
 end
 
 arr = [8, 3, 5, 5, 6, 6]
@@ -81,13 +95,14 @@ res = arr.none? { |num| num > 5 }
 puts res
 res = arr.none? { |num| num > 9 }
 puts res
-puts '-----count--------'
-puts arr.count
-puts arr.count(6)
-puts(arr.count { |num| num > 4 })
 puts '-----my count?--------'
 res = arr.my_count
 puts res
 res = arr.my_count(6)
 puts res
 puts(arr.my_count { |num| num > 4 })
+puts '-----my map?--------'
+puts(arr.my_map { 'map' })
+puts(arr.my_map { |num| num * num })
+puts '-----my inject--------'
+puts(arr.my_inject { |result, num| result + num })
