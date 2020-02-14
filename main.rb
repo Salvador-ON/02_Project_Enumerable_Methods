@@ -71,6 +71,17 @@ module Enumerable
     varr
   end
 
+  def my_map3(*val)
+    varr = []
+    iarr = self
+    puts val.empty?
+    iarr.my_each do |num|
+      varr.push(val[0].call(num)) unless val.empty?
+      varr.push(yield(num)) if val.empty?
+    end
+    varr
+  end
+
   def my_inject
     var = self
     res = self[0]
@@ -122,4 +133,8 @@ puts(arr.my_inject { |resultado, num| resultado + num })
 puts '-----my inject with multiply_els--------'
 puts multiply_els(arr2)
 puts '-----map with procs--------'
-puts arr2.my_map2(x2).inspect
+puts arr2.my_map2(x2)
+puts '-----map with procs & cblovk--------'
+puts arr2.my_map3(x2)
+puts(arr2.my_map3 { |num| num * num })
+puts(arr2.my_map3(x2) { |num| num * num })
