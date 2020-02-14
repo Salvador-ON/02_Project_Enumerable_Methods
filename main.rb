@@ -133,7 +133,9 @@ puts '-----my inject with multiply_els--------'
 puts multiply_els(arr2)
 puts '-----map with procs--------'
 puts arr2.my_map2(x2)
-puts '-----map with procs & cblovk--------'
+puts '-----map with procs --------'
 puts arr2.my_map3(x2)
+puts '-----map with block--------'
 puts(arr2.my_map3 { |num| num * num })
+puts '-----map with procs & block--------'
 puts(arr2.my_map3(x2) { |num| num * num })
