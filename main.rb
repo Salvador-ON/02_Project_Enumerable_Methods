@@ -50,9 +50,9 @@ module Enumerable
     x = 0
     if !block_given? && val.nil?
       x = size
-    elsif val && !block_given?
+    elsif val
       iarr.my_each { |num| x += 1 if num == val }
-    elsif block_given? && val.nil?
+    else
       iarr.my_each { |num| x += 1 if yield(num) }
     end
     x
