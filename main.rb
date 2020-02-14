@@ -65,6 +65,12 @@ module Enumerable
     varr
   end
 
+  def my_map2(val)
+    varr = []
+    my_each { |num| varr.push(val.call(num)) }
+    varr
+  end
+
   def my_inject
     var = self
     res = self[0]
@@ -78,6 +84,9 @@ def multiply_els(arr2)
 end
 
 arr = [8, 3, 5, 5, 6, 6]
+arr2 = [2, 4, 5]
+x2 = proc { |x| x * 2 }
+
 puts '-----my each-----'
 arr.my_each { |num1| puts num1 }
 puts '-----my each with index-----'
@@ -110,6 +119,7 @@ puts(arr.my_map { 'map' })
 puts(arr.my_map { |num| num * num })
 puts '-----my inject--------'
 puts(arr.my_inject { |resultado, num| resultado + num })
-arr2 = [2, 4, 5]
 puts '-----my inject with multiply_els--------'
 puts multiply_els(arr2)
+puts '-----map with procs--------'
+puts arr2.my_map2(x2).inspect
