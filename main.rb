@@ -73,6 +73,10 @@ module Enumerable
   end
 end
 
+def multiply_els(arr2)
+  arr2.my_inject { |resultado, num| resultado * num }
+end
+
 arr = [8, 3, 5, 5, 6, 6]
 puts '-----my each-----'
 arr.my_each { |num1| puts num1 }
@@ -105,4 +109,7 @@ puts '-----my map?--------'
 puts(arr.my_map { 'map' })
 puts(arr.my_map { |num| num * num })
 puts '-----my inject--------'
-puts(arr.my_inject { |result, num| result + num })
+puts(arr.my_inject { |resultado, num| resultado + num })
+arr2 = [2, 4, 5]
+puts '-----my inject with multiply_els--------'
+puts multiply_els(arr2)
