@@ -74,7 +74,6 @@ module Enumerable
   def my_map3(*val)
     varr = []
     iarr = self
-    puts val.empty?
     iarr.my_each do |num|
       varr.push(val[0].call(num)) unless val.empty?
       varr.push(yield(num)) if val.empty?
