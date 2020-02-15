@@ -33,6 +33,11 @@ Style/FrozenStringLiteralComment:
   EnforcedStyle: never
 Style/CaseEquality:
   Enabled: false
+Metrics/PerceivedComplexity:
+  Enabled: false
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
 
 
 Layout/HashAlignment:

@@ -1,5 +1,7 @@
 module Enumerable
   def my_each
+    return to_enum :my_each unless block_given?
+
     iarr = self
     size = iarr.length
     x = 0
@@ -10,6 +12,8 @@ module Enumerable
   end
 
   def my_each_with_index
+    return to_enum :my_each_with_index unless block_given?
+
     iarr = self
     size = iarr.length
     x = 0
@@ -20,16 +24,33 @@ module Enumerable
   end
 
   def my_select
+    return to_enum :my_select unless block_given?
+
     varr = []
     iarr = self
     iarr.my_each { |num| varr << num if yield(num) == true }
     varr
   end
 
-  def my_all?
+  def my_all?(val = nil)
     iarr = self
-    iarr.my_each { |num| return false unless yield(num) }
-    true
+    status = true
+    if block_given? && val.nil?
+      iarr.my_each { |num| status = false unless yield(num) }
+    elsif val
+      status = true
+      iarr.my_each do |num|
+        status = true if num == val && status == true
+        status = false if num != val && status == true
+      end
+    else
+      status = true
+      iarr.my_each do |num|
+        status = true if num && num != false && status == true
+        status = false if (num.nil? || num == false) && status == true
+      end
+    end
+    status
   end
 
   def my_any?
@@ -95,6 +116,9 @@ end
 
 arr = [8, 3, 5, 5, 6, 6]
 arr2 = [2, 4, 5]
+arr3 = [3, 3, 4, 3]
+arr4 = [3, 3, 3, 3]
+arr5 = [3, 3, nil, 3]
 x2 = proc { |x| x * 2 }
 
 puts '-----my each-----'
@@ -103,11 +127,15 @@ puts '-----my each with index-----'
 arr.my_each_with_index { |num1, num2| p num1.to_s + ':' + num2.to_s }
 puts '-----my select?-----'
 p(arr.my_select { |num| num > 4 })
-puts '-----my all?--------'
-res = arr.all? { |num| num > 2 }
-puts res
-res = arr.all? { |num| num > 6 }
-puts res
+puts '-----my all? true and false--------'
+puts(arr.my_all? { |num| num > 2 })
+puts(arr.my_all? { |num| num > 6 })
+puts '-----my all? no block and with argument false and true--------'
+puts(arr3.my_all?(3))
+puts(arr4.my_all?(3))
+puts '-----my all? no block and no argument false and true--------'
+puts(arr5.my_all?)
+puts(arr4.my_all?)
 puts '-----my any--------'
 res = arr.any? { |num| num > 5 }
 puts res
