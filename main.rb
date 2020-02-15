@@ -53,11 +53,25 @@ module Enumerable
     status
   end
 
-  def my_any?
+  def my_any?(val = nil)
     iarr = self
-    iarr.my_each { |num| return true unless yield(num) }
-    false
+    status = false
+    if block_given? && val.nil?
+      iarr.my_each { |num| status = true if yield(num) }
+    elsif val
+      status = false
+      iarr.my_each do |num|
+        status = true if num == val && status == false
+      end
+    else
+      status = false
+      iarr.my_each do |num|
+        status = true if num && status == false
+      end
+    end
+    status
   end
+
 
   def my_none?
     iarr = self
@@ -136,11 +150,15 @@ puts(arr4.my_all?(3))
 puts '-----my all? no block and no argument false and true--------'
 puts(arr5.my_all?)
 puts(arr4.my_all?)
-puts '-----my any--------'
-res = arr.any? { |num| num > 5 }
-puts res
-res = arr.any? { |num| num > 9 }
-puts res
+puts '-----my any? true and false--------'
+puts(arr.my_any? { |num| num > 2 })
+puts(arr.my_any? { |num| num > 9 })
+puts '-----my any? no block and with argument true and false--------'
+puts(arr3.my_any?(3))
+puts(arr4.my_any?(4))
+puts '-----my any? no block and no argument true and true--------'
+puts(arr5.my_any?)
+puts(arr4.my_any?)
 puts '-----my none?--------'
 res = arr.none? { |num| num > 5 }
 puts res
