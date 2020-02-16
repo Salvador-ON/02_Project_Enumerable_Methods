@@ -151,7 +151,11 @@ x2 = proc { |num| num * 2 }
 puts '-----my each-----'
 p(arr.my_each { |num1| num1 })
 puts '-----my each with index-----'
-arr.my_each_with_index { |num1, num2| p num1.to_s + ':' + num2.to_s }
+hash = Hash.new
+%w(cat dog wombat).my_each_with_index { |item, index|
+  hash[item] = index
+}
+p hash
 puts '-----my select?-----'
 p(arr.my_select { |num| num > 4 })
 puts '-----my all? true and false--------'
