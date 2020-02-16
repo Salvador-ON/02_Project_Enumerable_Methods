@@ -109,21 +109,8 @@ module Enumerable
     x
   end
 
-  def my_map(val = nil)
-    varr = []
-    my_each { |num| varr.push(val.call(num)) } if val
-    my_each { |num| varr.push(yield(num)) } if val.nil?
-    varr
-  end
-
-  def my_map2(val)
-    varr = []
-    my_each { |num| varr.push(val.call(num)) }
-    varr
-  end
-
-  def my_map3(*val)
-    return to_enum :my_map3 unless block_given?
+  def my_map(*val)
+    return to_enum :my_map unless block_given?
     varr = []
     iarr = self
     iarr.my_each do |num|
@@ -161,43 +148,43 @@ arr.my_each_with_index { |num1, num2| p num1.to_s + ':' + num2.to_s }
 puts '-----my select?-----'
 p(arr.my_select { |num| num > 4 })
 puts '-----my all? true and false--------'
-puts(arr.my_all? { |num| num > 2 })
-puts(arr.my_all? { |num| num > 6 })
+p(arr.my_all? { |num| num > 2 })
+p(arr.my_all? { |num| num > 6 })
 puts '-----my all? no block and with argument false and true--------'
-puts(arr3.my_all?(3))
-puts(arr4.my_all?(3))
+p(arr3.my_all?(3))
+p(arr4.my_all?(3))
 puts '-----my all? no block and no argument false and true--------'
-puts(arr5.my_all?)
-puts(arr4.my_all?)
+p(arr5.my_all?)
+p(arr4.my_all?)
 puts '-----my any? true and false--------'
-puts(arr.my_any? { |num| num > 2 })
-puts(arr.my_any? { |num| num > 9 })
+p(arr.my_any? { |num| num > 2 })
+p(arr.my_any? { |num| num > 9 })
 puts '-----my any? no block and with argument true and false--------'
-puts(arr3.my_any?(3))
-puts(arr4.my_any?(4))
+p(arr3.my_any?(3))
+p(arr4.my_any?(4))
 puts '-----my any? no block and no argument true and true--------'
-puts(arr5.my_any?)
-puts(arr4.my_any?)
+p(arr5.my_any?)
+p(arr4.my_any?)
 puts '-----my none?--------'
-puts(arr.my_none? { |num| num > 5 })
-puts(arr.my_none? { |num| num > 9 })
+p(arr.my_none? { |num| num > 5 })
+p(arr.my_none? { |num| num > 9 })
 puts '-----my none? argument--------'
-puts(arr6.my_none?(Float))
+p(arr6.my_none?(Float))
 puts '-----my none? no block--------'
-puts(arr7.my_none?)
+p(arr7.my_none?)
 puts '-----my count?--------'
-res = arr.my_count
-puts res
-res = arr.my_count(6)
-puts res
-puts(arr.my_count { |num| num > 4 })
+p(arr.my_count)
+p(arr.my_count(6))
+p(arr.my_count { |num| num > 4 })
 puts '-----my inject--------'
-puts(arr.my_inject { |resultado, num| resultado + num })
+p(arr.my_inject { |resultado, num| resultado + num })
 puts '-----my inject with multiply_els--------'
-puts multiply_els(arr2)
+p multiply_els(arr2)
 puts '-----map with procs --------'
-puts arr2.my_map3(x2)
+p arr2.my_map(x2)
 puts '-----map with block--------'
-puts(arr2.my_map3 { |num| num * num })
+puts(arr2.my_map { |num| num * num })
 puts '-----map with procs & block--------'
-puts(arr2.my_map3(x2) { |num| num * num })
+p(arr2.my_map(x2) { |num| num * num })
+puts '-----map with anything-------'
+p(arr2.my_map)
