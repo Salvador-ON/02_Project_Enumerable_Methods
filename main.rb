@@ -9,10 +9,11 @@ module Enumerable
       yield(iarr[x])
       x += 1
     end
-  self
+    self
   end
 
   def my_each_with_index
+
     return to_enum :my_each_with_index unless block_given?
 
     iarr = self
