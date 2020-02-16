@@ -151,10 +151,8 @@ x2 = proc { |num| num * 2 }
 puts '-----my each-----'
 p(arr.my_each { |num1| num1 })
 puts '-----my each with index-----'
-hash = Hash.new
-%w(cat dog wombat).my_each_with_index { |item, index|
-  hash[item] = index
-}
+hash = {}
+%w[cat dog wombat].my_each_with_index { |item, index| hash[item] = index }
 p hash
 puts '-----my select?-----'
 p(arr.my_select { |num| num > 4 })
