@@ -111,6 +111,7 @@ module Enumerable
 
   def my_map(*val)
     return to_enum :my_map unless block_given?
+
     varr = []
     iarr = self
     iarr.my_each do |num|
@@ -139,7 +140,7 @@ arr4 = [3, 3, 3, 3]
 arr5 = [3, 3, nil, 3]
 arr6 = [3, 3, 3]
 arr7 = []
-x2 = proc { |x| x * 2 }
+x2 = proc { |num| num * 2 }
 
 puts '-----my each-----'
 arr.my_each { |num1| puts num1 }
@@ -183,7 +184,7 @@ p multiply_els(arr2)
 puts '-----map with procs --------'
 p arr2.my_map(x2)
 puts '-----map with block--------'
-puts(arr2.my_map { |num| num * num })
+p(arr2.my_map { |num| num * num })
 puts '-----map with procs & block--------'
 p(arr2.my_map(x2) { |num| num * num })
 puts '-----map with anything-------'
