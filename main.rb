@@ -72,11 +72,27 @@ module Enumerable
     status
   end
 
-
-  def my_none?
+  def my_none?(val = nil)
+    status = true
     iarr = self
-    iarr.my_each { |num| return false if yield(num) }
-    true
+    if block_given?
+      iarr.my_each do |num|
+        status = false if yield(num)
+      end
+    elsif val.is_a? Class
+      iarr.my_each do |num|
+        status = false if num.is_a? val
+      end
+    elsif val
+      iarr.my_each do |num|
+        status = false if val == num
+      end
+    elsif val.nil? && !block_given?
+      iarr.my_each do |num|
+        status = false if num
+      end
+    end
+    status
   end
 
   def my_count(val = nil)
@@ -107,6 +123,7 @@ module Enumerable
   end
 
   def my_map3(*val)
+    return to_enum :my_map3 unless block_given?
     varr = []
     iarr = self
     iarr.my_each do |num|
@@ -133,6 +150,8 @@ arr2 = [2, 4, 5]
 arr3 = [3, 3, 4, 3]
 arr4 = [3, 3, 3, 3]
 arr5 = [3, 3, nil, 3]
+arr6 = [3, 3, 3]
+arr7 = []
 x2 = proc { |x| x * 2 }
 
 puts '-----my each-----'
@@ -160,25 +179,22 @@ puts '-----my any? no block and no argument true and true--------'
 puts(arr5.my_any?)
 puts(arr4.my_any?)
 puts '-----my none?--------'
-res = arr.none? { |num| num > 5 }
-puts res
-res = arr.none? { |num| num > 9 }
-puts res
+puts(arr.my_none? { |num| num > 5 })
+puts(arr.my_none? { |num| num > 9 })
+puts '-----my none? argument--------'
+puts(arr6.my_none?(Float))
+puts '-----my none? no block--------'
+puts(arr7.my_none?)
 puts '-----my count?--------'
 res = arr.my_count
 puts res
 res = arr.my_count(6)
 puts res
 puts(arr.my_count { |num| num > 4 })
-puts '-----my map?--------'
-puts(arr.my_map { 'map' })
-puts(arr.my_map { |num| num * num })
 puts '-----my inject--------'
 puts(arr.my_inject { |resultado, num| resultado + num })
 puts '-----my inject with multiply_els--------'
 puts multiply_els(arr2)
-puts '-----map with procs--------'
-puts arr2.my_map2(x2)
 puts '-----map with procs --------'
 puts arr2.my_map3(x2)
 puts '-----map with block--------'
