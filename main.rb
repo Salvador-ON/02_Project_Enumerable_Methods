@@ -2,13 +2,14 @@ module Enumerable
   def my_each
     return to_enum :my_each unless block_given?
 
-    iarr = self
+    iarr = to_a
     size = iarr.length
     x = 0
     until x == size
       yield(iarr[x])
       x += 1
     end
+    self
   end
 
   def my_each_with_index
@@ -121,10 +122,15 @@ module Enumerable
     varr
   end
 
-  def my_inject
-    var = self
-    res = self[0]
-    var.my_each_with_index { |num, ind| res = yield(res, num) if ind.positive? }
+  def my_inject(*val)
+    res = nil
+    param = nil
+    val.my_each { |num| res = num if num.is_a? Numeric }
+    val.my_each { |num| param = num unless num.is_a? Numeric }
+    iarr = res ? to_a : to_a[1..-1]
+    res ||= to_a[0]
+    iarr.to_a.my_each { |num| res = yield(res, num) } if block_given?
+    iarr.to_a.my_each { |num| res = res.public_send(param, num) } if param
     res
   end
 end
@@ -143,7 +149,7 @@ arr7 = []
 x2 = proc { |num| num * 2 }
 
 puts '-----my each-----'
-arr.my_each { |num1| puts num1 }
+p(arr.my_each { |num1| num1 })
 puts '-----my each with index-----'
 arr.my_each_with_index { |num1, num2| p num1.to_s + ':' + num2.to_s }
 puts '-----my select?-----'
@@ -189,3 +195,9 @@ puts '-----map with procs & block--------'
 p(arr2.my_map(x2) { |num| num * num })
 puts '-----map with anything-------'
 p(arr2.my_map)
+puts '-----my inject using block and inject  151200 --------------'
+p((5..10).inject(1) { |product, n| product * n }) #=> 151200
+puts '-----my inject using words--------------'
+p(%w[cat sheep bear].inject do |memo, word|
+  memo.length > word.length ? memo : word
+end)
