@@ -1,5 +1,6 @@
 # rubocop:disable Metrics/ModuleLength,
 # rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
+# rubocop:disable Metrics/MethodLength:
 
 module Enumerable
   def my_each
@@ -18,7 +19,7 @@ module Enumerable
   def my_each_with_index
     return to_enum :my_each_with_index unless block_given?
 
-    iarr = self
+    iarr = to_a
     size = iarr.length
     x = 0
     until x == size
@@ -41,6 +42,10 @@ module Enumerable
     status = true
     if block_given? && val.nil?
       iarr.my_each { |num| status = false unless yield(num) }
+    elsif val.is_a? Regexp
+      iarr.my_each { |num| status = false unless num =~ val }
+    elsif val.is_a? Class
+      iarr.my_each { |num| status = false unless num.is_a? val }
     elsif val
       status = true
       iarr.my_each do |num|
@@ -62,6 +67,8 @@ module Enumerable
     status = false
     if block_given? && val.nil?
       iarr.my_each { |num| status = true if yield(num) }
+    elsif val.is_a? Regexp
+      iarr.my_each { |num| status = true if num =~ val }
     elsif val
       status = false
       iarr.my_each do |num|
@@ -83,6 +90,8 @@ module Enumerable
       iarr.my_each do |num|
         status = false if yield(num)
       end
+    elsif val.is_a? Regexp
+      iarr.my_each { |num| status = false if num =~ val }
     elsif val.is_a? Class
       iarr.my_each do |num|
         status = false if num.is_a? val
@@ -140,7 +149,86 @@ end
 
 # rubocop:enable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
 # rubocop:enable Metrics/ModuleLength
+# rubocop:enable Metrics/MethodLength:
 
 def multiply_els(arr2)
   arr2.my_inject { |resultado, num| resultado * num }
 end
+
+arr = [8, 3, 5, 5, 6, 6]
+arr2 = [2, 4, 5]
+arr3 = [3, 3, 4, 3]
+arr4 = [3, 3, 3, 3]
+arr5 = [3, 3, nil, 3]
+arr6 = [3, 3, 3]
+arr7 = []
+x2 = proc { |num| num * 2 }
+
+puts '-----my each-----'
+p(arr.my_each { |num1| num1 })
+puts '-----my each with index-----'
+hash = {}
+%w[cat dog wombat].my_each_with_index { |item, index| hash[item] = index }
+p hash
+(0..5).my_each_with_index { |a, b| puts "#{a} #{b}" }
+puts '-----my select?-----'
+p(arr.my_select { |num| num > 4 })
+puts '-----my all? true and false--------'
+p(arr.my_all? { |num| num > 2 })
+p(arr.my_all? { |num| num > 6 })
+puts '-----my all? no block and with argument false and true--------'
+p(arr3.my_all?(3))
+p(arr4.my_all?(3))
+puts '-----my all? no block and no argument false and true--------'
+p(arr5.my_all?)
+p(arr4.my_all?)
+puts '-----my all? regex -------'
+p(%w[ant bear cat].my_all?(/t/))
+p(%w[ant bat cat].my_all?(/t/))
+puts '-----my all? classes -------'
+p([1, 2i, 3.14].my_all?(Numeric))
+p([1, 'a', 3.14].my_all?(Numeric))
+puts '-----my any? true and false--------'
+p(arr.my_any? { |num| num > 2 })
+p(arr.my_any? { |num| num > 9 })
+puts '-----my any? regex -------'
+p(%w[mouse bear dog].my_any?(/t/))
+p(%w[mouse dog cat].my_any?(/t/))
+puts '-----my any? no block and with argument true and false--------'
+p(arr3.my_any?(3))
+p(arr4.my_any?(4))
+puts '-----my any? no block and no argument true and true--------'
+p(arr5.my_any?)
+p(arr4.my_any?)
+puts '-----my none?--------'
+p(arr.my_none? { |num| num > 5 })
+p(arr.my_none? { |num| num > 9 })
+puts '-----my none? regex--------'
+p(%w[mouse bear dog].none?(/t/))
+p(%w[mouse dog cat].my_none?(/t/))
+puts '-----my none? argument--------'
+p(arr6.my_none?(Float))
+puts '-----my none? no block--------'
+p(arr7.my_none?)
+puts '-----my count?--------'
+p(arr.my_count)
+p(arr.my_count(6))
+p(arr.my_count { |num| num > 4 })
+puts '-----my inject--------'
+p(arr.my_inject { |resultado, num| resultado + num })
+puts '-----my inject with multiply_els--------'
+p multiply_els(arr2)
+puts '-----map with procs --------'
+p arr2.my_map(x2)
+puts '-----map with block--------'
+p(arr2.my_map { |num| num * num })
+puts '-----map with procs & block--------'
+p(arr2.my_map(x2) { |num| num * num })
+puts '-----map with anything-------'
+p(arr2.my_map)
+puts '-----my inject using block and inject  151200 --------------'
+p((5..10).inject(1) { |product, n| product * n }) #=> 151200
+puts '-----my inject using words--------------'
+p(%w[cat sheep bear].inject do |memo, word|
+  memo.length > word.length ? memo : word
+end)

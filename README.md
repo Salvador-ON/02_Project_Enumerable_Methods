@@ -3,7 +3,7 @@
 > In this project, We got the chance to build our Enumerable Methods. We will be fallowing the instruction displayed in [The Odin Project](https://www.theodinproject.com/courses/ruby-programming/lessons/advanced-building-blocks)
 
 ## Live Demo
-[repl.it](https://repl.it/@SalvadorON/02ProjectEnumerableMethods)
+[repl.it](https://repl.it/@SalvadorON/enumerable-methods)
 
 ## Built With
 
@@ -14,7 +14,7 @@
 
 **This Project is for Testing Our Abilities in Ruby Programming**
 
-## Authors
+## Author
 
 **Salvador Olvera**
 - Linkedin: [Salvador Olvera](https://www.linkedin.com/in/salvador-olvera-n)
