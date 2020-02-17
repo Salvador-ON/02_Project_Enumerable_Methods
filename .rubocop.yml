@@ -33,14 +33,9 @@ Style/FrozenStringLiteralComment:
   EnforcedStyle: never
 Style/CaseEquality:
   Enabled: false
-Metrics/PerceivedComplexity:
-  Enabled: false
-Metrics/CyclomaticComplexity:
-  Enabled: false
-Metrics/ModuleLength:
-  Enabled: false
 
 
+  
 
 Layout/HashAlignment:
   EnforcedColonStyle: key
