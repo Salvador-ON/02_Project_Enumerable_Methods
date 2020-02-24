@@ -14,7 +14,7 @@ RSpec.describe Enumerable do
     end
   end
 
-  describe 'my_each_with_index' do
+  describe '#my_each_with_index' do
     context 'when no block given return enumarator' do
       it { expect(arr.my_each_with_index).to be_a(Enumerator) }
     end
@@ -27,6 +27,82 @@ RSpec.describe Enumerable do
       ha = {}
       ha2 = {}
       it { expect(a_t2.my_each_with_index { |i, ix| ha[i] = ix }).to eq(a_t2.each_with_index { |i, ix| ha2[i] = ix }) }
+    end
+  end
+
+  describe '#my_all?' do
+    context 'when no block given' do
+      it { expect(arr.my_all?).to eq(arr.all?) }
+    end
+
+    context 'when block given' do
+      it { expect(a_t2.my_all? { |word| word.length >= 4 }).to eq(a_t2.all? { |word| word.length >= 4 }) }
+    end
+
+    context 'when argument given' do
+      it { expect(arr.my_all?(Numeric)).to eq(arr.all?(Numeric)) }
+    end
+
+    context 'when using regex' do
+      it { expect(a_t2.my_all?(/t/)).to eq(a_t2.all?(/t/)) }
+    end
+
+    context 'when no arguments or block given' do
+      it { expect([].my_all?).to eq([].all?) }
+    end
+  end
+
+  describe '#my_none?' do
+    context 'when no block given' do
+      it { expect(arr.my_none?).to eq(arr.none?) }
+    end
+
+    context 'when block given' do
+      it { expect(a_t2.my_none? { |word| word.length >= 4 }).to eq(a_t2.none? { |word| word.length >= 4 }) }
+    end
+
+    context 'when argument given' do
+      it { expect(arr.my_none?(Numeric)).to eq(arr.none?(Numeric)) }
+    end
+
+    context 'when using regex' do
+      it { expect(a_t2.my_none?(/t/)).to eq(a_t2.none?(/t/)) }
+    end
+
+    context 'when no arguments or block given' do
+      it { expect([].my_none?).to eq([].none?) }
+    end
+  end
+
+  describe '#my_any?' do
+    context 'when no block given' do
+      it { expect(arr.my_any?).to eq(arr.any?) }
+    end
+
+    context 'when block given' do
+      it { expect(a_t2.my_any? { |word| word.length >= 4 }).to eq(a_t2.any? { |word| word.length >= 4 }) }
+    end
+
+    context 'when argument given' do
+      it { expect(arr.my_any?(Numeric)).to eq(arr.any?(Numeric)) }
+    end
+
+    context 'when using regex' do
+      it { expect(a_t2.my_any?(/t/)).to eq(a_t2.any?(/t/)) }
+    end
+
+    context 'when no arguments or block given' do
+      it { expect([].my_any?).to eq([].any?) }
+    end
+  end
+
+  describe '#my_inject?' do
+    context 'when no block given' do
+      it { expect(arr.my_inject(:+)).to eq(arr.inject(:+)) }
+    end
+
+    context 'when block given' do
+      it { expect(arr.my_inject { |sum, n| sum + n }).to eq(arr.inject { |sum, n| sum + n }) }
     end
   end
 
