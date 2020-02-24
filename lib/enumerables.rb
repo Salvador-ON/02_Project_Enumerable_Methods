@@ -26,6 +26,7 @@ module Enumerable
       yield(iarr[x], x)
       x += 1
     end
+    self
   end
 
   def my_select
