@@ -26,6 +26,7 @@ module Enumerable
       yield(iarr[x], x)
       x += 1
     end
+    self
   end
 
   def my_select
@@ -69,6 +70,10 @@ module Enumerable
       iarr.my_each { |num| status = true if yield(num) }
     elsif val.is_a? Regexp
       iarr.my_each { |num| status = true if num =~ val }
+    elsif val.is_a? Class
+      iarr.my_each do |num|
+        status = true if num.is_a? val
+      end
     elsif val
       status = false
       iarr.my_each do |num|
@@ -126,7 +131,7 @@ module Enumerable
     return to_enum :my_map unless block_given?
 
     varr = []
-    iarr = self
+    iarr = to_a
     iarr.my_each do |num|
       varr.push(val[0].call(num)) unless val.empty?
       varr.push(yield(num)) if val.empty?
