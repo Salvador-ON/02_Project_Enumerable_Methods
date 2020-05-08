@@ -7,8 +7,8 @@
 
 ## Built With
 
-- RUBY
-- Visual Studio Code
+- RUBY.
+- Visual Studio Code.
 
 ## Getting Started
 
