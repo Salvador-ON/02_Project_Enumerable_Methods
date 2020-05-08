@@ -1,6 +1,6 @@
 # Microverse - RUBY - Enumerable Methods Project
 
-> In this project, We got the chance to build our Enumerable Methods. We will be fallowing the instruction displayed in [The Odin Project](https://www.theodinproject.com/courses/ruby-programming/lessons/advanced-building-blocks)
+> In this project, I got the chance to build our Enumerable Methods. 
 
 ## Live Demo
 [repl.it](https://repl.it/@SalvadorON/enumerable-methods)
@@ -23,7 +23,7 @@
 
 ## 🤝 Contributing
 
-Contributions, issues and feature requests are welcome!
+Contributions, issues, and feature requests are welcome!
 
 Feel free to check the [issues page](./issues/).
 
