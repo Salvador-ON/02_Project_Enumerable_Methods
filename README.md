@@ -1,4 +1,4 @@
-# Microverse - RUBY - Enumerable Methods Project
+# Microverse - Ruby - Enumerable Methods Project
 
 > In this project, I got the chance to build our Enumerable Methods. 
 
