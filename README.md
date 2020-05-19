@@ -7,7 +7,7 @@
 
 ## Built With
 
-- RUBY.
+- Ruby.
 - Visual Studio Code.
 
 ## Getting Started
